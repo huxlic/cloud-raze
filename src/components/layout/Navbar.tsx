@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <div
       className={clsx("", {
-        "bg-white text-white": theme === "light",
+        "bg-white text-black": theme === "light",
         "bg-[#111015] text-white": theme === "dark",
       })}
     >
@@ -27,14 +27,14 @@ const Navbar = () => {
           <div className="flex gap-3">
             <button
               aria-label="dash"
-              className="cursor-pointer rounded-full bg-[#232227] p-2 transition hover:bg-[#2f2e35]"
+              className="cursor-pointer rounded-full p-2 transition hover:bg-[#2f2e35] hover:text-white"
             >
               <HiSquares2X2 size={15} />
             </button>
 
             <button
               aria-label="notification"
-              className="cursor-pointer rounded-full bg-[#232227] p-2 transition hover:bg-[#2f2e35]"
+              className="cursor-pointer rounded-full  p-2 transition hover:bg-[#2f2e35] hover:text-white"
             >
               <IoNotifications size={15} />
             </button>

@@ -10,7 +10,7 @@ const Button = () => {
     const {theme, setTheme} = useThemeStore();
 
   return (
-    <div className="rounded-full flex bg-[#1B1A1D] border border-[#201F24]">
+    <div className="rounded-full flex bg-[#1B1A1D] border border-[#201F24] text-white">
       <button
         className={clsx(
           " rounded-full p-2 transition-[background-color,color,border-color,box-shadow,transform] duration-300 ease-out hover:shadow-lg active:translate-y-0 active:shadow-md",
