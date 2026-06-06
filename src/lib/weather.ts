@@ -28,15 +28,14 @@ export const getWeather = async(lat: number, lon: number) => {
 }
 
 const getWeatherByCity = async(city: string) => {
-    // const {latitude, longitude, name, country} = await getCoordinates(city);
     const response = await getCoordinates(city);
 
     if (!response) return;
 
-    const { latitude, longitude } = response;
+    const { latitude, longitude, name, country } = response;
     const weather = await(getWeather(latitude, longitude));
 
-    return weather;
+    return {name, country, ...weather};
 }
 
 export default getWeatherByCity;

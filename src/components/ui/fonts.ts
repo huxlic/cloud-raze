@@ -1,4 +1,4 @@
-import { Nova_Square, Outfit } from "next/font/google";
+import { Orbitron, Outfit } from "next/font/google";
 
 export const outfit = Outfit({
   variable: "--font-outfit",
@@ -6,7 +6,7 @@ export const outfit = Outfit({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export const nova = Nova_Square({
+export const orbitron = Orbitron({
     subsets: ["latin"],
-    weight: ["400"]
+    weight: ["400", "500", "600", "700", "800", "900"],
 })

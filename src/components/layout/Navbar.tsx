@@ -32,7 +32,6 @@ const Navbar = () => {
     setIsLoading(false);
 
     setWeather(weatherData);
-    console.log(weatherData);
   };
 
   return (
