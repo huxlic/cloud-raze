@@ -64,7 +64,7 @@ const Widget = () => {
               alt="mostlyClearDaySmoke"
               width={120}
               height={10}
-              className="-my-8 -mx-6 target-icon"
+              className="-my-8 -mx-6 target-icon w-auto h-auto"
             />
           </div>
         </div>
