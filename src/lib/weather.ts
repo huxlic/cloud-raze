@@ -4,8 +4,6 @@ import axios from "axios";
 const GEO_URL = "https://geocoding-api.open-meteo.com/v1/search";
 const WEATHER_URL = "https://api.open-meteo.com/v1/forecast";
 
-// const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,weather_code,pressure_msl,relative_humidity_2m,rain&timezone=auto
-
 export const getCoordinates = async(city: string) => {
     const response = await axios(`${GEO_URL}?name=${city}&count=1`)
     if (!response.data.results) return;
@@ -20,16 +18,12 @@ export const getCoordinates = async(city: string) => {
 }
 
 export const getWeather = async(lat: number, lon: number) => {
-    const response = await axios(`${WEATHER_URL}?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,weather_code,pressure_msl,relative_humidity_2m,rain&timezone=auto`);
-    const { temperature_2m, weather_code, pressure_msl, relative_humidity_2m, rain } = response.data.hourly;
+    const response = await axios(
+      `${WEATHER_URL}?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,apparent_temperature,weather_code,pressure_msl,relative_humidity_2m,rain,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,weather_code&timezone=auto`,
+    );
+    const data = response.data.daily;
 
-    return {
-        temperature_2m,
-        weather_code,
-        pressure_msl,
-        relative_humidity_2m,
-        rain
-    }
+    return data;
 
 }
 
@@ -39,20 +33,10 @@ const getWeatherByCity = async(city: string) => {
 
     if (!response) return;
 
-    const { latitude, longitude, name, country } = response;
+    const { latitude, longitude } = response;
     const weather = await(getWeather(latitude, longitude));
 
-    return {
-        latitude,
-        longitude,
-        name,
-        country,
-        temperature_2m: weather.temperature_2m,
-        weather_code: weather.weather_code,
-        pressure_msl: weather.pressure_msl,
-        relative_humidity_2m: weather.relative_humidity_2m,
-        rain: weather.rain
-    }
+    return weather;
 }
 
 export default getWeatherByCity;

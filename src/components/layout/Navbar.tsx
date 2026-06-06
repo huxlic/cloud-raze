@@ -32,6 +32,7 @@ const Navbar = () => {
     setIsLoading(false);
 
     setWeather(weatherData);
+    console.log(weatherData);
   };
 
   return (
@@ -67,7 +68,7 @@ const Navbar = () => {
               ) : !weather ? (
                 <span className="text-red-500">City not found</span>
               ) : (
-                "Search for a city"
+                <span className="text-orange-300">Search for a city</span>
               )}
             </p>
           </div>
