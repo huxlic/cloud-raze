@@ -2,7 +2,12 @@
 
 import mostlyClearDaySmoke from "@meteocons/svg/fill/mostly-clear-day-smoke.svg";
 
-import { getCurrentTimeByTimeZone, getDayFromDate } from "@/lib/helpers";
+import {
+  getCurrentTimeByTimeZone,
+  getDayFromDate,
+  getShortDayFromDate,
+  getWeatherUIDetails,
+} from "@/lib/helpers";
 import useWeatherStore from "@/store/useWeather";
 import { orbitron } from "./fonts";
 import { useEffect, useState } from "react";
@@ -14,6 +19,7 @@ const Widget = () => {
   const {
     name,
     country,
+    weather_code,
     apparent_temperature_max,
     apparent_temperature_min,
     sunrise,
@@ -22,6 +28,8 @@ const Widget = () => {
     temperature_2m_min,
     time,
   } = weather ? weather : {};
+
+  // console.log(weather);
 
   const [currentTime, setCurrentTime] = useState(() =>
     getCurrentTimeByTimeZone(country),
@@ -60,25 +68,50 @@ const Widget = () => {
             </h3>
 
             <Image
-              src={mostlyClearDaySmoke}
-              alt="mostlyClearDaySmoke"
+              src={getWeatherUIDetails(weather_code[0]).icon}
+              alt={getWeatherUIDetails(weather_code[0]).alt}
               width={120}
               height={10}
-              className="-my-8 -mx-6 target-icon w-auto h-auto"
+              className="-my-8 -mx-6 target-icon"
             />
           </div>
         </div>
       </div>
 
-      {Array.from({ length: 6 }).map((_, index) => (
-        <div
-          key={index}
-          className="flex flex-col bg-[#1B1B1D] rounded-3xl box-border "
-        >
-          <div className="flex-1 border-b border-[#3b3941] mx-4"></div>
-          <div className="flex-4"></div>
-        </div>
-      ))}
+      {time &&
+        time.map((_: never, index: number) => {
+          if (index === 0) return;
+          const UI = getWeatherUIDetails(weather_code[index] || 0);
+
+          return (
+            <div
+              key={index}
+              className="flex flex-col bg-[#1B1B1D] rounded-3xl box-border "
+            >
+              <div className="flex-1 flex items-center justify-center border-b border-[#3b3941] mx-4">
+                <p>{getShortDayFromDate(time[index], country)}</p>
+              </div>
+              <div className="flex-4 flex flex-col justify-evenly items-center">
+                <div className="">
+                  <Image
+                    src={UI.icon}
+                    alt={UI.alt}
+                    width={90}
+                    height={90}
+                    className="-my-10 h-auto"
+                  />
+                </div>
+                <div className="">
+                  {temperature_2m_max && (
+                    <p
+                      className={`${orbitron.className} font-semibold text-2xl`}
+                    >{`${Math.round(temperature_2m_max[index])}°`}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
     </div>
   );
 };

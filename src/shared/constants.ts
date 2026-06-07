@@ -207,6 +207,7 @@ export const countryTimeZones: Record<string, string> = {
   monaco: "Europe/Monaco",
   montenegro: "Europe/Podgorica",
   netherlands: "Europe/Amsterdam",
+  the_netherlands: "Europe/Amsterdam",
   north_macedonia: "Europe/Skopje",
   norway: "Europe/Oslo",
   poland: "Europe/Warsaw",
