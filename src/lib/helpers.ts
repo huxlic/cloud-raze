@@ -56,17 +56,27 @@ export const getShortDayFromDate = (
 }
 
 // Returns the current time
-export const getCurrentTimeByTimeZone = (country: string): string => {
+export const getCurrentTimeByCountry = (
+  country?: string,
+  time?: string,
+): string => {
+  if (!country) return "";
+
   const timeZone = getTimeZoneByCountry(country);
   if (!timeZone) return "";
-  return new Date()
+
+  const date = time ? new Date(time) : new Date();
+
+  return date
     .toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "2-digit",
       hour12: true,
       timeZone,
     })
-}
+    .toLowerCase()
+    .replace(" ", "");
+};
 
 // Returns the weather icon
 export const getWeatherUIDetails = (code: number) => {

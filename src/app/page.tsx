@@ -19,7 +19,7 @@ export default function WeatherDashboard() {
       })}
     >
       <main className="grid grid-cols-4 gap-10 p-4">
-        <section className="col-span-3 flex flex-col">
+        <section className="col-span-4 lg:col-span-3 flex flex-col">
           <div className="flex justify-between">
             <ForecastFilter />
             <Segments />
@@ -31,8 +31,7 @@ export default function WeatherDashboard() {
           </div>
         </section>
 
-        <section className="">sec</section>
-        {/* <Image src={clearDay} alt="clear day" width={100} height={10} /> */}
+        <section className="">Chance of rain</section>
       </main>
     </div>
   );

@@ -257,3 +257,26 @@ export const countryTimeZones: Record<string, string> = {
   utc: "UTC",
   gmt: "UTC",
 };
+
+export const weatherDetails = [
+  {
+    name: "real feel",
+    value: "apparent_temperature",
+    append: "°",
+  },
+  {
+    name: "wind",
+    value: "wind_direction_10m",
+    append: "km/h",
+  },
+  {
+    name: "pressure",
+    value: "pressure_msl",
+    append: "mb"
+  },
+  {
+    name: "Humidity",
+    value: "relative_humidity_2m",
+    append: "%",
+  },
+];

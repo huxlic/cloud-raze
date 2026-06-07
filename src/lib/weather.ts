@@ -19,9 +19,9 @@ export const getCoordinates = async(city: string) => {
 
 export const getWeather = async(lat: number, lon: number) => {
     const response = await axios(
-      `${WEATHER_URL}?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,apparent_temperature,weather_code,pressure_msl,relative_humidity_2m,rain,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,weather_code&timezone=auto`,
+      `${WEATHER_URL}?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,apparent_temperature,weather_code,pressure_msl,relative_humidity_2m,rain,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,weather_code&current=temperature_2m,apparent_temperature,weather_code,pressure_msl,relative_humidity_2m,rain,wind_speed_10m,wind_direction_10m&timezone=auto`,
     );
-    const data = response.data.daily;
+    const data = {...response.data.current, ...response.data.daily};
 
     return data;
 
