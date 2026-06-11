@@ -3,7 +3,6 @@
 import {
   getCurrentTimeByCountry,
   getDayFromDate,
-  getShortDayFromDate,
   getWeatherUIDetails,
 } from "@/lib/helpers";
 import { orbitron } from "./fonts";
@@ -11,6 +10,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { weatherDetails } from "@/shared/constants";
 import useWeather from "@/hooks/useWeather";
+import ForecastCard from "./ForecastCard";
 
 const Widget = () => {
   const { weather } = useWeather({});
@@ -41,7 +41,7 @@ const Widget = () => {
     <div className="sm:h-60 flex flex-col sm:grid sm:grid-cols-9 md:grid-cols-9 lg:grid-cols-9 gap-4">
       <div className="flex flex-col bg-[#BBD7EC] text-[#0F0F11] col-span-3 rounded-3xl overflow-hidden">
         <div
-          className={`flex-1 flex px-4 justify-between box-border items-center bg-[#AECADF] `}
+          className={`flex-1 flex px-4 py-1 justify-between box-border items-center bg-[#AECADF] `}
         >
           {time && (
             <>
@@ -88,7 +88,7 @@ const Widget = () => {
               </ul>
             )}
 
-            <ul className="text-[.8rem] flex flex-col gap-y-1">
+            <ul className="text-[.8rem] flex flex-col gap-y-1 sm:hidden">
               <li>
                 Sunrise:{" "}
                 <span
@@ -114,39 +114,22 @@ const Widget = () => {
         </div>
       </div>
 
-      <div className="grid-cols-3 sm:col-span-6 grid sm:grid-cols-6 gap-4">
+      <div className="grid-cols-3 sm:col-span-6 grid sm:grid-cols-6 gap-3">
         {time &&
           time.map((_: never, index: number) => {
             if (index === 0) return;
             const UI = getWeatherUIDetails(weather_code[index] || 0);
 
             return (
-              <div
+              <ForecastCard
                 key={index}
-                className="flex flex-col bg-[#1B1B1D] rounded-3xl box-border h-40 sm:h-auto  "
-              >
-                <div className="flex-1 flex items-center justify-center border-b border-[#3b3941] mx-4">
-                  <p>{getShortDayFromDate(time[index], country)}</p>
-                </div>
-                <div className="flex-4 flex flex-col justify-evenly items-center">
-                  <div className="">
-                    <Image
-                      src={UI.icon}
-                      alt={UI.alt}
-                      width={90}
-                      height={90}
-                      className="-my-6 h-auto"
-                    />
-                  </div>
-                  <div className="">
-                    {temperature_2m && (
-                      <p
-                        className={`${orbitron.className} font-semibold text-2xl`}
-                      >{`${Math.round(temperature_2m_max[index])}°`}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
+                index={index}
+                time={time}
+                country={country}
+                UI={UI}
+                temperature_2m={temperature_2m}
+                temperature_2m_max={temperature_2m_max}
+              />
             );
           })}
       </div>

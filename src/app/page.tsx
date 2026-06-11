@@ -1,4 +1,5 @@
 "use client";
+import { ChartBarMultiple } from "@/components/ui/ChartBarMultiple";
 import ForecastFilter from "@/components/ui/ForecastFilter";
 import Segments from "@/components/ui/Segments";
 import Widget from "@/components/ui/Widget";
@@ -17,22 +18,22 @@ export default function WeatherDashboard() {
         "bg-[#111015]": theme === "dark",
       })}
     >
-      <main className="grid grid-cols-4 gap-10 p-4">
-        <section className="col-span-4 lg:col-span-3 flex flex-col">
-          <div className="flex justify-between">
+      <main className="p-4 flex flex-col gap-10">
+        <section className="flex flex-col gap-4">
+          <div className="flex gap-4 items-center justify-between">
             <ForecastFilter />
             <Segments />
           </div>
 
           {/* Contents */}
-          <div className="flex-1 mt-6">
+          <div className="flex-1 mt-4">
             <Widget />
           </div>
         </section>
 
-        <section className="">
-          <h2 className="text-[.9rem]">Chance of rain</h2>
-        </section>
+        <aside className="w-full">
+          <ChartBarMultiple />
+        </aside>
       </main>
     </div>
   );

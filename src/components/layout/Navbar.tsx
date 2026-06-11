@@ -2,7 +2,6 @@
 
 import { FiSearch } from "react-icons/fi";
 import { TiLocation } from "react-icons/ti";
-import Button from "../ui/Button";
 import bgWeather from "@/assets/images/weather.jpg";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +11,7 @@ import quickLinks from "@/shared/quickLinks";
 import { useState } from "react";
 import { GiSpinningBlades } from "react-icons/gi";
 import useWeather from "@/hooks/useWeather";
+import ThemeButton from "../ui/ThemeButton";
 
 const Navbar = () => {
   const { theme } = useThemeStore();
@@ -101,7 +101,7 @@ const Navbar = () => {
 
         {/* Actions */}
         <div className="flex items-center gap-4 justify-end">
-          <Button />
+          <ThemeButton/>
 
           <Link
             href="/"

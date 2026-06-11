@@ -10,7 +10,7 @@ const Segments = () => {
         <button
           key={tab}
           onClick={() => setActiveTab(index)}
-          className={clsx("text-[.85rem] px-4 py-1.5 rounded-full", {
+          className={clsx("text-[.8rem] px-3 py-1.5 rounded-full", {
             "bg-[#BBD7EC] text-[#1E1E1E] font-medium": activeTab === index,
             "text-[#818085]": activeTab !== index,
           })}

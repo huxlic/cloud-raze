@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { outfit } from "@/components/ui/fonts";
 import Navbar from "@/components/layout/Navbar";
+import { cn } from "@/lib/utils";
+import { Outfit } from "next/font/google";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Cloud Raze",
@@ -15,12 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`h-full`}
-    >
-      <body className={`${outfit.variable} font-sans antialiased min-h-full flex flex-col`} cz-shortcut-listen="true">
-        <Navbar/>
+    <html lang="en" className={cn("h-full", "font-sans", outfit.variable)}>
+      <body
+        className={`${outfit.variable} font-sans antialiased min-h-full flex flex-col`}
+        cz-shortcut-listen="true"
+      >
+        <Navbar />
         {children}
       </body>
     </html>
