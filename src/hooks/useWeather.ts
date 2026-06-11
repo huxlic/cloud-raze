@@ -6,6 +6,7 @@ import UseWeatherOptions from "@/types/useWeatherOptions";
 import { useCallback, useEffect, useState } from "react";
 
 const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+const DEFAULT_CITY = "Lagos";
 
 const useWeather = ({ refresh = false }: UseWeatherOptions) => {
   const { weather, setWeather } = useWeatherStore();
@@ -51,6 +52,13 @@ const useWeather = ({ refresh = false }: UseWeatherOptions) => {
       if (error instanceof Error) throw new Error(error.message);
     }
   }, [setWeather, weather]);
+
+  useEffect(() => {
+    if (!weather?.name) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      void searchWeather(DEFAULT_CITY);
+    }
+  }, [searchWeather, weather?.name]);
 
   useEffect(() => {
     if (!refresh || !weather?.name) return;
