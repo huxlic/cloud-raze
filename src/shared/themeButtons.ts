@@ -1,4 +1,4 @@
-import { Theme } from "@/store/useTheme";
+import { Theme } from "@/store/useThemeStore";
 import { BsMoonStarsFill } from "react-icons/bs";
 import { MdSunny } from "react-icons/md";
 

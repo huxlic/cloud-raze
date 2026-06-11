@@ -1,7 +1,7 @@
 "use client";
 
 import buttons from "@/shared/themeButtons";
-import useThemeStore from "@/store/useTheme";
+import useThemeStore from "@/store/useThemeStore";
 import clsx from "clsx";
 
 const Button = () => {

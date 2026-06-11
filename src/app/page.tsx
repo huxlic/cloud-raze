@@ -1,15 +1,14 @@
-"use client"
+"use client";
 import ForecastFilter from "@/components/ui/ForecastFilter";
 import Segments from "@/components/ui/Segments";
 import Widget from "@/components/ui/Widget";
 // import clearDay from "@meteocons/svg/fill/mostly-clear-day-sleet.svg";
 
-import useThemeStore from "@/store/useTheme";
+import useThemeStore from "@/store/useThemeStore";
 import clsx from "clsx";
 
 export default function WeatherDashboard() {
-
-  const {theme} = useThemeStore();
+  const { theme } = useThemeStore();
 
   return (
     <div
@@ -27,11 +26,13 @@ export default function WeatherDashboard() {
 
           {/* Contents */}
           <div className="flex-1 mt-6">
-            <Widget/>
+            <Widget />
           </div>
         </section>
 
-        <section className="">Chance of rain</section>
+        <section className="">
+          <h2 className="text-[.9rem]">Chance of rain</h2>
+        </section>
       </main>
     </div>
   );

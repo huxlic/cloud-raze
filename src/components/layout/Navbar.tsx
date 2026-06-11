@@ -7,31 +7,22 @@ import bgWeather from "@/assets/images/weather.jpg";
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
-import useThemeStore from "@/store/useTheme";
+import useThemeStore from "@/store/useThemeStore";
 import quickLinks from "@/shared/quickLinks";
-import getWeatherByCity from "@/lib/weather";
 import { useState } from "react";
-import useWeatherStore from "@/store/useWeather";
 import { GiSpinningBlades } from "react-icons/gi";
+import useWeather from "@/hooks/useWeather";
 
 const Navbar = () => {
   const { theme } = useThemeStore();
-  const { weather, setWeather } = useWeatherStore()
+  const { weather, isLoading, error, searchWeather } = useWeather({refresh: true});
   const [searchParams, setSearchParams] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!searchParams.trim()) return;
-
-    setIsLoading(true);
-
-    const weatherData = await getWeatherByCity(searchParams.trim());
-
-    setIsLoading(false);
-
-    setWeather(weatherData);
+    await searchWeather(searchParams);
+    setSearchParams("");
   };
 
   return (
@@ -59,13 +50,13 @@ const Navbar = () => {
           <div className="flex items-center gap-2">
             <TiLocation size={15} />
             <p className="text-[.8rem]">
-              {weather && weather.name ? (
+              {error ? (
+                <span className="text-red-500">{error}</span>
+              ) : weather?.name ? (
                 <>
                   {weather.name},{" "}
                   <span className="font-extralight">{weather.country}</span>
                 </>
-              ) : !weather ? (
-                <span className="text-red-500">City not found</span>
               ) : (
                 <span className="text-orange-300">Search for a city</span>
               )}

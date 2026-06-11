@@ -1,13 +1,6 @@
-import getWeatherByCity from "@/lib/weather";
+import WeatherStore from "@/types/WeatherStore";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-type WeatherData = Awaited<ReturnType<typeof getWeatherByCity>>;
-
-interface WeatherStore {
-  weather: WeatherData;
-  setWeather: (mode: WeatherData) => void;
-}
 
 const useWeatherStore = create<WeatherStore>()(
   persist(

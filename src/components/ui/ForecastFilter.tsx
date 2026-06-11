@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { useState } from "react";
 
 const ForecastFilter = () => {
-    const [isActive, setIsActive] = useState(2);
+    const [isActive, setIsActive] = useState(1);
 
 
   return (

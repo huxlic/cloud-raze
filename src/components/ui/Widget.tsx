@@ -6,15 +6,15 @@ import {
   getShortDayFromDate,
   getWeatherUIDetails,
 } from "@/lib/helpers";
-import useWeatherStore from "@/store/useWeather";
 import { orbitron } from "./fonts";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { weatherDetails } from "@/shared/constants";
-import getWeatherByCity from "@/lib/weather";
+import useWeather from "@/hooks/useWeather";
 
 const Widget = () => {
-  const { weather, setWeather } = useWeatherStore();
+  const { weather } = useWeather({});
+
   const {
     country,
     weather_code,
@@ -36,23 +36,6 @@ const Widget = () => {
 
     return () => clearInterval(interval);
   }, [country]);
-
-  useEffect(() => {
-    const TEN_MINUTES = 5 * 60 * 1000;
-    if (!weather?.name) return;
-
-    const refreshWeather = async () => {
-      const updatedWeather = await getWeatherByCity(weather.name);
-
-      if (updatedWeather) {
-        setWeather(updatedWeather);
-      }
-    };
-
-    const interval = setInterval(refreshWeather, TEN_MINUTES);
-
-    return () => clearInterval(interval);
-  }, [weather?.name, setWeather]);
 
   return (
     <div className="sm:h-60 flex flex-col sm:grid sm:grid-cols-9 md:grid-cols-9 lg:grid-cols-9 gap-4">

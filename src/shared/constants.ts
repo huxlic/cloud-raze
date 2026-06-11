@@ -1,4 +1,4 @@
-const filters = ["Today", "Tomorrow", "Next 7days"];
+const filters = ["Today", "Next 7days"];
 const segments = ["Forecast", "Air Quality"];
 
 export {
