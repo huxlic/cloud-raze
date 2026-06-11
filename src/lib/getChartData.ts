@@ -19,7 +19,10 @@ const getChartData = (
       weatherData;
 
     return precipitation_probability_max.map((chance, index) => ({
-      day: getShortDayFromDate(time?.[index] ?? "", country ?? ""),
+      day:
+        index === 0
+          ? "Today"
+          : getShortDayFromDate(time?.[index] ?? "", country ?? ""),
       chance,
       rainfall: rain_sum?.[index] ?? 0,
     }));
