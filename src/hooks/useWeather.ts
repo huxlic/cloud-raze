@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 
 const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
-const useWeather = ({refresh = false} : UseWeatherOptions) => {
+const useWeather = ({ refresh = false }: UseWeatherOptions) => {
   const { weather, setWeather } = useWeatherStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,9 +24,9 @@ const useWeather = ({refresh = false} : UseWeatherOptions) => {
         const weather = await getWeatherByCity(trimmedCity);
 
         if (!weather) {
-            setError("City not found");
-            return;
-        };
+          setError("City not found");
+          return;
+        }
 
         setWeather(weather);
       } catch {
@@ -48,15 +48,7 @@ const useWeather = ({refresh = false} : UseWeatherOptions) => {
         setWeather(updatedWeather);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        setError(
-          error.message === "Failed to fetch"
-            ? "City not found"
-            : "Something went wrong",
-        );
-      } else {
-        setError("Something went wrong");
-      }
+      if (error instanceof Error) throw new Error(error.message);
     }
   }, [setWeather, weather]);
 

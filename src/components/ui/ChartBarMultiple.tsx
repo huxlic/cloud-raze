@@ -18,18 +18,11 @@ import {
   type ChartConfig,
 } from "./Chart";
 import useThemeStore from "@/store/useThemeStore";
+import useWeather from "@/hooks/useWeather";
+import { useMemo } from "react";
+import getChartData from "@/lib/getChartData";
 
 export const description = "A 7-day rain forecast chart";
-
-const chartData = [
-  { day: "Today", chance: 65, rainfall: 4 },
-  { day: "Tue", chance: 42, rainfall: 2 },
-  { day: "Wed", chance: 58, rainfall: 3 },
-  { day: "Thu", chance: 30, rainfall: 1 },
-  { day: "Fri", chance: 72, rainfall: 6 },
-  { day: "Sat", chance: 48, rainfall: 2 },
-  { day: "Sun", chance: 35, rainfall: 1 },
-];
 
 const chartConfig = {
   chance: {
@@ -44,6 +37,9 @@ const chartConfig = {
 
 export function ChartBarMultiple() {
   const { theme } = useThemeStore();
+  const { weather } = useWeather({ refresh: true });
+
+  const chartData = useMemo(() => getChartData(weather), [weather]);
 
   return (
     <Card
