@@ -97,8 +97,8 @@ export function ChartBarMultiple() {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar dataKey="chance" fill="var(--color-chance)" radius={4} />
-            <Bar dataKey="rainfall" fill="var(--color-rainfall)" radius={4} />
+            <Bar dataKey="chance" fill="var(--color-chance)" radius={10} />
+            <Bar dataKey="rainfall" fill="var(--color-rainfall)" radius={10} />
           </BarChart>
         </ChartContainer>
       </CardContent>

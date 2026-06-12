@@ -6,8 +6,8 @@ const useWeatherStore = create<WeatherStore>()(
   persist(
     (set) => ({
       weather: {
-        latitude: "",
-        longitude: "",
+        lat: "",
+        lon: "",
         name: "",
         country: "",
         temperature_2m: "",

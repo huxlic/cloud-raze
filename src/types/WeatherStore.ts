@@ -1,6 +1,7 @@
-import getWeatherByCity from "@/lib/weather";
 
-type WeatherData = Awaited<ReturnType<typeof getWeatherByCity>>;
+import { getWeather } from "@/lib/weather";
+
+type WeatherData = Awaited<ReturnType<typeof getWeather>>;
 
 interface WeatherStore {
   weather: WeatherData | null;

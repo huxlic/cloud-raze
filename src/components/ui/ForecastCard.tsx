@@ -15,7 +15,6 @@ const ForecastCard = ({
 }: ForecastCardProps) => {
   return (
     <div
-      key={index}
       className="flex flex-col bg-[#1B1B1D] text-white rounded-3xl box-border h-40 sm:h-auto  "
     >
       <div className="flex-1 flex items-center justify-center border-b border-[#3b3941] mx-4">

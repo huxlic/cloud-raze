@@ -8,22 +8,58 @@ import Link from "next/link";
 import clsx from "clsx";
 import useThemeStore from "@/store/useThemeStore";
 import quickLinks from "@/shared/quickLinks";
-import { useState } from "react";
+import { useEffect } from "react";
 import { GiSpinningBlades } from "react-icons/gi";
 import useWeather from "@/hooks/useWeather";
 import ThemeButton from "../ui/ThemeButton";
+import CitySuggestion from "../ui/CitySuggestion";
+import { getCoordinates } from "@/lib/weather";
+
+interface Result {
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+}
 
 const Navbar = () => {
   const { theme } = useThemeStore();
-  const { weather, isLoading, error, searchWeather } = useWeather({refresh: true});
-  const [searchParams, setSearchParams] = useState("");
+  const {
+    weather,
+    isLoading,
+    setIsLoading,
+    error,
+    searchWeather,
+    searchResults,
+    setSearchResults,
+    searchParams,
+    setSearchParams,
+  } = useWeather({
+    refresh: true,
+  });
 
   const handleSearch = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await searchWeather(searchParams);
+    await searchWeather(
+      searchResults[0].name,
+      searchResults[0].country,
+      searchResults[0].latitude,
+      searchResults[0].longitude,
+    );
     setSearchParams("");
   };
+
+  useEffect(() => {
+    if (!searchParams.trim) return;
+
+    (async () => {
+      setIsLoading(true);
+      const response = await getCoordinates(searchParams);
+      setSearchResults(response);
+      setIsLoading(false);
+    })();
+  }, [searchParams, setIsLoading, setSearchResults]);
 
   return (
     <div
@@ -70,7 +106,7 @@ const Navbar = () => {
           action=""
           role="search"
           className={clsx(
-            "flex w-full box-border items-center gap-2 rounded-full px-4 py-3 transition-colors lg:max-w-md lg:flex-1",
+            "relative flex w-full box-border items-center gap-2 rounded-full px-4 py-3 transition-colors lg:max-w-md lg:flex-1",
             {
               "bg-[#232227] text-white": theme === "dark",
               "bg-[#f2f4f7] text-[#171717]": theme === "light",
@@ -97,11 +133,23 @@ const Navbar = () => {
           <span className={`${isLoading && "animate-spin"}`}>
             <GiSpinningBlades />
           </span>
+
+          {/* Search results */}
+          {searchResults && (
+            <div className="absolute suggestions top-[110%] left-0 right-0 z-10 bg-[#232227] rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+              {searchResults.map((result: Result) => (
+                <CitySuggestion
+                  {...result}
+                  key={`${result.latitude}-${result.longitude}`}
+                />
+              ))}
+            </div>
+          )}
         </form>
 
         {/* Actions */}
         <div className="flex items-center gap-4 justify-end">
-          <ThemeButton/>
+          <ThemeButton />
 
           <Link
             href="/"

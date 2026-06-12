@@ -1,76 +1,107 @@
 "use client";
 
-import getWeatherByCity from "@/lib/weather";
+import { getWeather } from "@/lib/weather";
+import useLoadingStore from "@/store/useLoadingStore";
+import useSearchParamsStore from "@/store/useSearchParamsStore";
 import useWeatherStore from "@/store/useWeatherStore";
 import UseWeatherOptions from "@/types/useWeatherOptions";
 import { useCallback, useEffect, useState } from "react";
 
 const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
-const DEFAULT_CITY = "Lagos";
+const DEFAULT_CITY = {
+  name: "New York",
+  country: "United States",
+  latitude: 40.7128,
+  longitude: -74.006,
+};
+
+interface SearchResult {
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+}
 
 const useWeather = ({ refresh = false }: UseWeatherOptions) => {
   const { weather, setWeather } = useWeatherStore();
-  const [isLoading, setIsLoading] = useState(false);
+  const { searchParams, setSearchParams } = useSearchParamsStore();
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const { isLoading, setIsLoading } = useLoadingStore();
   const [error, setError] = useState<string | null>(null);
 
   const searchWeather = useCallback(
-    async (city: string) => {
-      const trimmedCity = city.trim();
-      if (!trimmedCity) return;
-
+    async (
+      name: string,
+      country: string,
+      latitude: number,
+      longitude: number,
+    ) => {
       setIsLoading(true);
       setError(null);
 
       try {
-        const weather = await getWeatherByCity(trimmedCity);
+        const weather = await getWeather(name, country, latitude, longitude);
 
         if (!weather) {
           setError("City not found");
           return;
         }
-
+        console.log(weather);
         setWeather(weather);
+        setSearchParams("");
       } catch {
         setError("City not found");
       } finally {
         setIsLoading(false);
       }
     },
-    [setWeather],
+    [setWeather, setSearchParams, setIsLoading],
   );
 
   const refreshWeather = useCallback(async () => {
-    if (!weather?.name) return;
+    if (!weather) return;
 
     try {
-      const updatedWeather = await getWeatherByCity(weather.name);
+      if (!weather) return;
+      const { name, country, lat, lon } = weather;
+      const updatedWeather = await getWeather(name, country, lat, lon);
 
       if (updatedWeather) {
         setWeather(updatedWeather);
       }
     } catch (error) {
-      if (error instanceof Error) throw new Error(error.message);
+      console.error("error:", error);
     }
   }, [setWeather, weather]);
 
   useEffect(() => {
-    if (!weather?.name) {
+    if (!weather) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      void searchWeather(DEFAULT_CITY);
+      void searchWeather(
+        DEFAULT_CITY.name,
+        DEFAULT_CITY.country,
+        DEFAULT_CITY.latitude,
+        DEFAULT_CITY.longitude,
+      );
     }
-  }, [searchWeather, weather?.name]);
+  }, [searchWeather, weather]);
 
   useEffect(() => {
-    if (!refresh || !weather?.name) return;
+    if (!weather) return;
 
     const interval = setInterval(refreshWeather, REFRESH_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [refresh, refreshWeather, weather?.name]);
+  }, [refresh, refreshWeather, weather]);
 
   return {
     weather,
+    searchParams,
+    setSearchParams,
+    searchResults,
+    setSearchResults,
     isLoading,
+    setIsLoading,
     error,
     searchWeather,
     refreshWeather,

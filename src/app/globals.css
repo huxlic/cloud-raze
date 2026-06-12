@@ -127,3 +127,25 @@
     @apply font-sans;
   }
 }
+
+/* Customizing the width of the scrollbar */
+.suggestions::-webkit-scrollbar {
+  background-color: transparent;
+  width: 5px;
+}
+
+/* The track (background area) */
+.suggestions::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* The thumb (the draggable part) */
+.suggestions::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+}
+
+/* The thumb when hovered */
+.suggestions::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
