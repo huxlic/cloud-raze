@@ -135,16 +135,21 @@ const Navbar = () => {
           </span>
 
           {/* Search results */}
-          {searchResults && (
-            <div className="absolute suggestions top-[110%] left-0 right-0 z-10 bg-[#232227] rounded-xl overflow-hidden max-h-80 overflow-y-auto">
-              {searchResults.map((result: Result) => (
+          <div className="absolute suggestions top-[110%] left-0 right-0 z-10 bg-[#232227] rounded-xl overflow-hidden max-h-80 overflow-y-auto">
+            {isLoading ? (
+              <div className="w-full flex justify-center items-center py-2">
+                <p className="text-[.8rem]">Loading...</p>
+              </div>
+            ) : (
+              searchResults &&
+              searchResults.map((result: Result) => (
                 <CitySuggestion
                   {...result}
                   key={`${result.latitude}-${result.longitude}`}
                 />
-              ))}
-            </div>
-          )}
+              ))
+            )}
+          </div>
         </form>
 
         {/* Actions */}
